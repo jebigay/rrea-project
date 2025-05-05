@@ -11,7 +11,7 @@ const merge = require("merge-stream");
 const plumber = require("gulp-plumber");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass");
-const uglify = require("gulp-uglify");
+const terser = require("gulp-terser");
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -104,7 +104,7 @@ function js() {
       '!./js/contact_me.js',
       '!./js/jqBootstrapValidation.js'
     ])
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(header(banner, {
       pkg: pkg
     }))
