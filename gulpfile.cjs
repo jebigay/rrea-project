@@ -56,7 +56,7 @@ function modules() {
     .pipe(gulp.dest("./vendor/bootstrap"));
 
   const fontAwesomeCSS = gulp.src("./node_modules/@fortawesome/fontawesome-free/css/**/*")
-    .pipe(gulp.dest("/vendor/fontawesome-free/css"));
+    .pipe(gulp.dest("./vendor/fontawesome-free/css"));
 
   const fontAwesomeWebfonts = gulp.src("./node_modules/@fortawesome/fontawesome-free/webfonts/**/*")
     .pipe(gulp.dest("./vendor/fontawesome-free/webfonts"));
