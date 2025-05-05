@@ -1,20 +1,25 @@
 "use strict";
 
-// Load plugins
-const autoprefixer = require("gulp-autoprefixer");
-const browsersync = require("browser-sync").create();
-const cleanCSS = require("gulp-clean-css");
-const del = require("del");
-const gulp = require("gulp");
-const insert = require("gulp-insert"); // ✅ Replaced gulp-header with gulp-insert
-const merge = require("merge-stream");
-const plumber = require("gulp-plumber");
-const rename = require("gulp-rename");
-const sass = require("gulp-sass")(require("sass")); // ✅ Dart Sass compiler
-const uglify = require("gulp-uglify");
+// Import required plugins (use dynamic import for ES Modules)
+import autoprefixer from "gulp-autoprefixer";
+import browsersync from "browser-sync";
+import cleanCSS from "gulp-clean-css";
+import del from "del";
+import gulp from "gulp";
+import insert from "gulp-insert"; // ✅ Replaced gulp-header with gulp-insert
+import merge from "merge-stream";
+import plumber from "gulp-plumber";
+import rename from "gulp-rename";
+import sass from "gulp-sass";
+import uglify from "gulp-uglify";
+// import sourcemaps from "gulp-sourcemaps";
 
-// Load package.json for banner
-const pkg = require('./package.json');
+// Import package.json for banner
+import pkg from './package.json' assert { type: 'json' };
+
+
+// Initialize the browsersync instance
+const browsersyncInstance = browsersync.create();
 
 // Set the banner content
 const banner = [
@@ -26,9 +31,9 @@ const banner = [
   '\n'
 ].join('');
 
-// BrowserSync
+// BrowserSync function
 function browserSync(done) {
-  browsersync.init({
+  browsersyncInstance.init({
     server: {
       baseDir: "./"
     },
@@ -37,18 +42,18 @@ function browserSync(done) {
   done();
 }
 
-// BrowserSync reload
+// BrowserSync reload function
 function browserSyncReload(done) {
-  browsersync.reload();
+  browsersyncInstance.reload();
   done();
 }
 
-// Clean vendor
+// Clean vendor folder
 function clean() {
   return del(["./vendor/"]);
 }
 
-// Bring third party dependencies from node_modules into vendor directory
+// Bring third-party dependencies from node_modules into vendor directory
 function modules() {
   const bootstrap = gulp.src('./node_modules/bootstrap/dist/**/*')
     .pipe(gulp.dest('./vendor/bootstrap'));
@@ -88,7 +93,7 @@ function css() {
     .pipe(rename({ suffix: ".min" }))
     .pipe(cleanCSS())
     .pipe(gulp.dest("./css"))
-    .pipe(browsersync.stream());
+    .pipe(browsersyncInstance.stream());
 }
 
 // JS task
@@ -104,7 +109,7 @@ function js() {
     .pipe(insert.prepend(banner)) // ✅ Using insert.prepend for banner
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('./js'))
-    .pipe(browsersync.stream());
+    .pipe(browsersyncInstance.stream());
 }
 
 // Watch files
@@ -120,12 +125,5 @@ const build = gulp.series(vendor, gulp.parallel(css, js));
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
 // Export tasks
-exports.css = css;
-exports.js = js;
-exports.clean = clean;
-exports.vendor = vendor;
-exports.build = build;
-exports.watch = watch;
-exports.default = build;
-exports.browserSync = browserSync;
-exports.browserSyncReload = browserSyncReload;
+export { css, js, clean, vendor, build, watch, browserSync, browserSyncReload };
+export default build;

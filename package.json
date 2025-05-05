@@ -1,9 +1,9 @@
 {
-    "title": "Agency",
+    "type": "module",
     "name": "startbootstrap-agency",
     "version": "5.2.2",
     "scripts": {
-        "start": "node_modules/.bin/gulp watch"
+        "start": "gulp watch"
     },
     "description": "Agency is a one page HTML theme for Bootstrap.",
     "keywords": [
@@ -38,9 +38,10 @@
         "plugin-error": "^2.0.1"
     },
     "devDependencies": {
+        "autoprefixer": "^10.4.21",
         "browser-sync": "3.0.4",
         "del": "^6.1.1",
-        "gulp": "5.0.0",
+        "gulp": "^5.0.0",
         "gulp-autoprefixer": "9.0.0",
         "gulp-clean-css": "4.3.0",
         "gulp-insert": "^0.5.0",
@@ -50,6 +51,7 @@
         "gulp-terser": "^2.1.0",
         "gulp-uglify": "^3.0.2",
         "merge-stream": "2.0.0",
-        "sass": "^1.87.0"
+        "sass": "^1.87.0",
+        "ts-node": "^10.9.2"
     }
 }
